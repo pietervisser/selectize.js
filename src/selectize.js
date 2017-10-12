@@ -1571,10 +1571,11 @@ $.extend(Selectize.prototype, {
 	 *
 	 * @param {string} value
 	 * @param {boolean} [triggerDropdown]
+	 * @param {boolean} [silent]
 	 * @param {function} [callback]
 	 * @return {boolean}
 	 */
-	createItem: function(input, triggerDropdown) {
+	createItem: function(input, triggerDropdown, silent) {
 		var self  = this;
 		var caret = self.caretPos;
 		input = input || $.trim(self.$control_input.val() || '');
@@ -1584,6 +1585,10 @@ $.extend(Selectize.prototype, {
 
 		if (typeof triggerDropdown !== 'boolean') {
 			triggerDropdown = true;
+		}
+
+		if (typeof silent !== 'boolean') {
+			silent = false;
 		}
 
 		if (!self.canCreate(input)) {
@@ -1610,7 +1615,7 @@ $.extend(Selectize.prototype, {
 			self.setTextboxValue('');
 			self.addOption(data);
 			self.setCaret(caret);
-			self.addItem(value);
+			self.addItem(value, silent);
 			self.refreshOptions(triggerDropdown && self.settings.mode !== 'single');
 			callback(data);
 		});
